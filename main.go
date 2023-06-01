@@ -17,13 +17,17 @@ type model struct {
 
 func initialModel() model {
     text := textarea.New()
-    text.Placeholder = "Start writing text here..."
     text.Focus()
 
 	return model{
         textarea: text,
         err: nil,
 	}
+}
+
+func (m *model) initModel(width int, height int) {
+    m.textarea.SetWidth(width)
+    m.textarea.SetHeight(height)
 }
 
 func (m model) Init() tea.Cmd {
@@ -35,6 +39,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
 
 	switch msg := msg.(type) {
+    case tea.WindowSizeMsg:
+        m.initModel(msg.Width, msg.Height)
 	case tea.KeyMsg:
 		switch msg.Type {
 		case tea.KeyEsc:
