@@ -27,7 +27,7 @@ func initialModel() model {
 }
 
 func (m model) Init() tea.Cmd {
-    return textarea.Blink
+    return tea.Batch(textarea.Blink, tea.EnterAltScreen)
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -69,7 +69,7 @@ func (m model) View() string {
 }
 
 func main() {
-    p := tea.NewProgram(initialModel())
+    p := tea.NewProgram(initialModel(), tea.WithAltScreen())
 
     if _, err := p.Run(); err != nil {
         fmt.Printf("Alas, there's been an error: %v", err)
